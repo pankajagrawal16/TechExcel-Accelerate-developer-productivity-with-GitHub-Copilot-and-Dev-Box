@@ -8,22 +8,31 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
+    env:
+      JOB_1_VALUE: "JOB_1_VALUE"
 
     steps:
       - name: Step one
         run: echo "Log from step one"
         env:
           VARIABLE_NAME: value
+        # Advanced Challenge
       - name: Step two
-        run: echo "Log from step two"
+        run: | 
+          echo "Log from step two"
+          echo "Value of JOB_1_VALUE is $JOB_1_VALUE"
+          echo "Value of VARIABLE_NAME is $VARIABLE_NAME"
 
   job2:
     needs: job1
     runs-on: ubuntu-latest
+    # Advanced Challenge
+    env:
+      COLOR: "blue"
 
     steps:
       - name: Cowsays
         uses: mscoutermarsh/cowsays-action@master
         with:
           text: 'Ready for prod--ship it!'
-          color: 'magenta'
+          color: ${{ env.COLOR }}
